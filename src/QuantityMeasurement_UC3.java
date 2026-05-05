@@ -45,6 +45,24 @@ public class QuantityMeasurement_UC3 {
             return Double.compare(this.toFeet(), other.toFeet()) == 0;
         }
     }
+    public QuantityLength add(QuantityLength other) {
+
+        if (other == null) {
+            throw new IllegalArgumentException("Other quantity cannot be null");
+        }
+
+        // Convert both to base unit (feet)
+        double thisInFeet = this.unit.toFeet(this.value);
+        double otherInFeet = other.unit.toFeet(other.value);
+
+        // Add
+        double sumInFeet = thisInFeet + otherInFeet;
+
+        // Convert back to THIS unit
+        double resultValue = sumInFeet / this.unit.toFeet(1.0);
+
+        return new QuantityLength(resultValue, this.unit);
+    }
 
     // Main method
     public static void main(String[] args) {
