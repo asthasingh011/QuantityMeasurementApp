@@ -45,7 +45,23 @@ public class QuantityMeasurement_UC3 {
             return Double.compare(this.toFeet(), other.toFeet()) == 0;
         }
     }
+    public static double convert(double value, LengthUnit source, LengthUnit target) {
 
+        // Validation
+        if (!Double.isFinite(value)) {
+            throw new IllegalArgumentException("Invalid value");
+        }
+
+        if (source == null || target == null) {
+            throw new IllegalArgumentException("Unit cannot be null");
+        }
+
+        // Convert to base unit (feet)
+        double valueInFeet = source.toFeet(value);
+
+        // Convert to target unit
+        return valueInFeet / target.toFeet(1.0);
+    }
     // Main method
     public static void main(String[] args) {
         QuantityLength q1 = new QuantityLength(1.0, LengthUnit.FEET);
