@@ -2,19 +2,21 @@ public class QuantityMeasurement_UC3 {
 
     // ENUM for units
     enum LengthUnit {
-        FEET(1.0),
-        INCH(1.0 / 12.0);
+    FEET(1.0),
+    INCH(1.0 / 12.0),
+    YARD(3.0),              // 1 yard = 3 feet
+    CM(0.0328084);         // 1 cm ≈ 0.0328084 feet
 
-        private final double toFeet;
+    private final double toFeet;
 
-        LengthUnit(double toFeet) {
-            this.toFeet = toFeet;
-        }
-
-        public double toFeet(double value) {
-            return value * toFeet;
-        }
+    LengthUnit(double toFeet) {
+        this.toFeet = toFeet;
     }
+
+    public double toFeet(double value) {
+        return value * toFeet;
+    }
+}
 
     // Generic Quantity Class
     static class QuantityLength {
@@ -44,24 +46,6 @@ public class QuantityMeasurement_UC3 {
 
             return Double.compare(this.toFeet(), other.toFeet()) == 0;
         }
-    }
-    public QuantityLength add(QuantityLength other) {
-
-        if (other == null) {
-            throw new IllegalArgumentException("Other quantity cannot be null");
-        }
-
-        // Convert both to base unit (feet)
-        double thisInFeet = this.unit.toFeet(this.value);
-        double otherInFeet = other.unit.toFeet(other.value);
-
-        // Add
-        double sumInFeet = thisInFeet + otherInFeet;
-
-        // Convert back to THIS unit
-        double resultValue = sumInFeet / this.unit.toFeet(1.0);
-
-        return new QuantityLength(resultValue, this.unit);
     }
 
     // Main method
